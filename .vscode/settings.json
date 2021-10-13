@@ -1,0 +1,4 @@
+{
+    "python.languageServer": "Pylance",
+    "vsintellicode.features.python.deepLearning": "enabled"
+}

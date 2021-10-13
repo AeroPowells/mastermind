@@ -48,12 +48,15 @@ class ComputerSolver:
 
   def find_four_numbers(self, options, index = 0, guess = []):
     if self.turn_count != 1:
-      guess.pop(4 - total_number)
+      guess.pop(4 - self.total_number)
     if guess.len() != 4:
       guess << options[index] 
-    computer_turn(self.maker_code, guess)
+    ComputerSolver.computer_turn(self.maker_code, guess)
     self.turn_count += 1
-    return guess if total_number == 4 else: find_four_numbers(options, index + 1, guess)
+    if self.total_number == 4:
+      return guess
+    else:
+      ComputerSolver.find_four_numbers(options, index + 1, guess)
   
 
   def computer_turn(self, master, guess):
@@ -68,7 +71,7 @@ class ComputerSolver:
 
   def find_code_order(self):
     self.code_permutations = ComputerSolver.create_permutations(self.four_numbers)
-    self.code_permutations.uniq!
+    self.code_permutations = set(self.code_permutations)
     ComputerSolver.compare_previous_guesses()
     ComputerSolver.final_turns()
   
@@ -89,38 +92,36 @@ class ComputerSolver:
   def run_permutations(self,code, exact, same):
     for perm in self.code_permutations:
       gl.compare(perm, code)
-      if exact_number
-      ComputerSolver.reduce_perms(perm) exact_number == exact && same_number == same
+      if self.exact_number:
+        ComputerSolver.reduce_perms(perm) exact_number == exact && same_number == same
 
 
-  def reduce_perms(code):
-    @code_permutations.reject! do |perm|
+  def reduce_perms(self, code):
+    self.code_permutations.reject! do |perm|
       perm == code
 
 
-  def final_turns():
+  def final_turns(self):
     while self.turn_count < 12
-      computer_turn(maker_code, @code_permutations[0])
-      @turn_count += 1
+      ComputerSolver.computer_turn(self.maker_code, self.code_permutations[0])
+      self.turn_count += 1
       break if solved?(maker_code, @code_permutations[0])
 
       run_permutations(@code_permutations[0], exact_number, same_number)
 
 
-  def computer_game_over(guess):
-    if maker_code == guess:
+  def computer_game_over(self, guess):
+    if self.maker_code == guess:
       computer_won()
     else:
-      print(game_message('computer_lost'))
+      print(tct.game_message('computer_lost'))
+    gl.repeat_game()
 
-    repeat_game
 
-
-  def computer_won():
-    if turn_count <= 6:
-      print(computer_won_message('inconceivable'))
-    elif turn_count.between?(7, 11):
-      print(computer_won_message('won'))
-    elif  turn_count == 12: 
-      print(computer_won_message('close'))
-  
+  def computer_won(self):
+    if self.turn_count <= 6:
+      print(tct.computer_won_message('inconceivable'))
+    elif self.turn_count in range(7, 11):
+      print(tct.computer_won_message('won'))
+    elif  self.turn_count == 12:
+      print(tct.computer_won_message('close'))
