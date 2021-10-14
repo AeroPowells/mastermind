@@ -38,10 +38,10 @@ class TextContent():
 
   def warning_message(message):
     {
-      'answer_error': formatting('red', "Enter '1' to be the code MAKER or '2' to be the code BREAKER.").to_s,
-      'turn_error': formatting('red', 'Your guess should only be 4 digits between 1-6.').to_s,
-      'last_turn': formatting('red', 'Choose carefully. This is your last chance to win!').to_s,
-      'code_error': formatting('red', "Your 'master code' must be 4 digits long, using numbers between 1-6.").to_s,
-      'game_over': "#{formatting('red', 'Game over. That was a hard code to break! ¯\\_(ツ)_/¯ ')} \n\n"
+      'answer_error': TextContent.formatting('red', "Enter '1' to be the code MAKER or '2' to be the code BREAKER.").to_s,
+      'turn_error': TextContent.formatting('red', 'Your guess should only be 4 digits between 1-6.').to_s,
+      'last_turn': TextContent.formatting('red', 'Choose carefully. This is your last chance to win!').to_s,
+      'code_error': TextContent.formatting('red', "Your 'master code' must be 4 digits long, using numbers between 1-6.").to_s,
+      'game_over': f"#{TextContent.formatting('red', 'Game over. That was a hard code to break! ¯\\_(ツ)_/¯ ')} \n\n"
     }[message]
   

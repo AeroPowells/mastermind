@@ -3,6 +3,7 @@ import game_logic as gl
 import display
 import text_content as tct
 import time
+import random
 
 
 
@@ -24,56 +25,56 @@ class ComputerSolver:
   
   def computer_start(self):
     print(tct.turn_message('code_prompt'))
-    self.maker_code = ComputerSolver.create_code().split("//")
+    self.maker_code = self.create_code().split("//")
     display.show_code(self.maker_code)
     print(tct.turn_message('code_displayed'))
-    ComputerSolver.find_code_numbers()
-    ComputerSolver.find_code_order()
-    ComputerSolver.computer_game_over(self.code_permutations[0])
+    self.find_code_numbers()
+    self.find_code_order()
+    self.computer_game_over(self.code_permutations[0])
   
 
-  def create_code():
+  def create_code(self):
     code_input = input()
     if code_input.match("/^[1-6]{4}$/"):
       return code_input
     print(tct.warning_message('code_error'))
-    ComputerSolver.create_code()
+    self.create_code()
 
   def find_code_numbers(self):
-    numbers = %w[1 2 3 4 5 6]
-    options = numbers.shuffle
+    numbers = ['1', '2', '3', '4', '5', '6']
+    options = random.shuffle(numbers)
     self.turn_count = 1
     self.find_code_guesses = []
-    self.four_numbers = ComputerSolver.find_four_numbers(options)
+    self.four_numbers = self.find_four_numbers(options)
 
   def find_four_numbers(self, options, index = 0, guess = []):
     if self.turn_count != 1:
       guess.pop(4 - self.total_number)
     if guess.len() != 4:
       guess << options[index] 
-    ComputerSolver.computer_turn(self.maker_code, guess)
+    self.computer_turn(self.maker_code, guess)
     self.turn_count += 1
     if self.total_number == 4:
       return guess
     else:
-      ComputerSolver.find_four_numbers(options, index + 1, guess)
+      self.find_four_numbers(options, index + 1, guess)
   
 
   def computer_turn(self, master, guess):
-    print(tct.turn_message('computer', turn_count))
+    print(tct.turn_message('computer', self.turn_count))
     time.sleep(1)
     display.show_code(guess)
-    gl.compare(master, guess)
-    display.show_clues(exact_number, same_number)
+    self.exact_number, self.same_number, self.total_number = gl.compare(master, guess)
+    display.show_clues(self.exact_number, self.same_number)
     current_guess = guess.clone
-    self.find_code_guesses.append([current_guess, exact_number, same_number])
+    self.find_code_guesses.append([current_guess, self.exact_number, self.same_number])
   
 
   def find_code_order(self):
-    self.code_permutations = ComputerSolver.create_permutations(self.four_numbers)
+    self.code_permutations = self.create_permutations(self.four_numbers)
     self.code_permutations = set(self.code_permutations)
-    ComputerSolver.compare_previous_guesses()
-    ComputerSolver.final_turns()
+    self.compare_previous_guesses()
+    self.final_turns()
   
 
   def create_permutations(array):
@@ -82,37 +83,37 @@ class ComputerSolver:
 
   def compare_previous_guesses(self):
     for code in self.find_code_guesses:
-      ComputerSolver.compare_permutations(code)
+      self.compare_permutations(code)
 
 
-  def compare_permutations(code):
-    ComputerSolver.run_permutations(code[0], code[1], code[2])
+  def compare_permutations(self,code):
+    self.run_permutations(code[0], code[1], code[2])
 
 
   def run_permutations(self,code, exact, same):
     for perm in self.code_permutations:
       gl.compare(perm, code)
-      if self.exact_number:
-        ComputerSolver.reduce_perms(perm) exact_number == exact && same_number == same
+      if not self.exact_number == exact and self.same_number == same:
+        self.reduce_perms(perm)
 
 
   def reduce_perms(self, code):
-    self.code_permutations.reject! do |perm|
-      perm == code
+    self.code_permutations = list(filter(lambda x: (x==code), self.code_permutations))
 
 
   def final_turns(self):
-    while self.turn_count < 12
-      ComputerSolver.computer_turn(self.maker_code, self.code_permutations[0])
+    while self.turn_count < 12:
+      self.computer_turn(self.maker_code, self.code_permutations[0])
       self.turn_count += 1
-      break if solved?(maker_code, @code_permutations[0])
+      if self.maker_code == self.code_permutations[0]:
+        break
 
-      run_permutations(@code_permutations[0], exact_number, same_number)
+    self.run_permutations(self.code_permutations[0], self.exact_number, self.same_number)
 
 
   def computer_game_over(self, guess):
     if self.maker_code == guess:
-      computer_won()
+      self.computer_won()
     else:
       print(tct.game_message('computer_lost'))
     gl.repeat_game()
@@ -125,3 +126,4 @@ class ComputerSolver:
       print(tct.computer_won_message('won'))
     elif  self.turn_count == 12:
       print(tct.computer_won_message('close'))
+
