@@ -42,12 +42,12 @@ def turn_messages(turn):
 
 
   def player_input():
-    input = input()
-    if input.lower() == 'q':
-      return input
-    if input.isnumeric():
-      if all(int(c) <= 6 and int(c) >= 0 for c in str(input)) and len(input) == 4:
-        return input
+    play_input = input()
+    if play_input.lower() == 'q':
+      return play_input
+    if play_input.isnumeric():
+      if all(int(c) <= 6 and int(c) >= 0 for c in str(play_input)) and len(play_input) == 4:
+        return play_input
 
     print(tct.warning_message('turn_error'))
     player_input()

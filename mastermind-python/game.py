@@ -14,9 +14,9 @@ def play():
     code_breaker()
 
 def mode_selection():
-  game_input = input()
-  if game_input.match("/^[1-2]$/"):
-    return game_input
+  text_input = input()
+  if text_input.match("/^[1-2]$/"):
+    return text_input
   print(tct.warning_message('answer_error'))
   mode_selection()
 
