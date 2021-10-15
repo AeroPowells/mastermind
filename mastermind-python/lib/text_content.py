@@ -1,7 +1,8 @@
+
 def formatting(description, string):
   out_message = {
-    'underline': "\e[4;1m#{string}\e[0m",
-    'red': "\e[31;1m#{string}\e[0m"
+    'underline': '\033[4m'+'\033[4m'.join(str(string)),
+    'red': '\033[91m'+string
   }[description]
   return out_message
 
@@ -27,8 +28,8 @@ def computer_won_message(message):
 
 def turn_message(message, number = None):
   out_message = {
-    'guess_prompt': "Turn ##{number}: Type in four numbers (1-6) to guess code, or 'q' to quit game.",
-    'computer': "\nComputer Turn ##{number}:",
+    'guess_prompt': F"Turn {number}: Type in four numbers (1-6) to guess code, or 'q' to quit game.",
+    'computer': F"\nComputer Turn {number}:",
     'breaker_start': "The computer has set the 'master code' and now it's time for you to break the code.\n\n",
     'code_prompt': "Please enter a 4-digit 'master code' for the computer to break.",
     'code_displayed': "is your 'master code'.\n"
@@ -38,11 +39,10 @@ def turn_message(message, number = None):
 
 def warning_message(message):
   out_message = {
-    'answer_error': formatting('red', "Enter '1' to be the code MAKER or '2' to be the code BREAKER.").to_s,
-    'turn_error': formatting('red', 'Your guess should only be 4 digits between 1-6.').to_s,
-    'last_turn': formatting('red', 'Choose carefully. This is your last chance to win!').to_s,
-    'code_error': formatting('red', "Your 'master code' must be 4 digits long, using numbers between 1-6.").to_s,
-    'game_over': f"#{formatting('red', 'Game over. That was a hard code to break! ¯\\_(ツ)_/¯ ')} \n\n"
+    'answer_error': formatting('red', "Enter '1' to be the code MAKER or '2' to be the code BREAKER."),
+    'turn_error': formatting('red', 'Your guess should only be 4 digits between 1-6.'),
+    'last_turn': formatting('red', 'Choose carefully. This is your last chance to win!'),
+    'code_error': formatting('red', "Your 'master code' must be 4 digits long, using numbers between 1-6."),
+    'game_over': formatting('red', 'Game over. That was a hard code to break!')
   }[message]
   return out_message
-

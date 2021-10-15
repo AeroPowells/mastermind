@@ -1,4 +1,6 @@
 {
     "python.languageServer": "Pylance",
-    "vsintellicode.features.python.deepLearning": "enabled"
+    "vsintellicode.features.python.deepLearning": "enabled",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 10
 }

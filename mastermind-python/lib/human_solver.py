@@ -1,6 +1,6 @@
-from game_logic import GameLogic as gl
-from display import Display
-from text_content import TextContent as tct
+import game_logic as gl
+import display
+import text_content as tct
 import random
 # class for code_breaker game option
 class HumanSolver():
@@ -15,49 +15,50 @@ class HumanSolver():
     self.turn_order()
     self.human_game_over(self.computer_code, self.guess)
 
-
   def turn_order(self):
     turn = 1
     while turn <= 12:
       tct.turn_messages(turn)
-      self.guess = player_input.split("//")
+      self.guess = self.player_input.split("//")
       turn += 1
 
-      if self.guess[0].downcase == 'q':
+      if self.guess[0].lower == 'q':
         break
-      Display.show_code(self.guess)
+      display.show_code(self.guess)
 
       if self.computer_code == self.guess:
         break
 
       self.turn_outcome()
 
-  def turn_messages(turn):
-    print(tct.turn_message('guess_prompt', turn))
-    if turn == 12
-    print(tct.TextContent.warning_message('last_turn'))
-  end
+  def turn_outcome(self):
+    gl.compare(self.computer_code, self.guess)
+    display.show_clues(self.exact_number, self.same_number)
 
-  def player_input
-    input = gets.chomp
-    return input if input.match(/^[1-6]{4}$/)
-    return input if input.downcase == 'q'
+def turn_messages(turn):
+  print(tct.turn_message('guess_prompt', turn))
+  if turn == 12:
+    print(tct.warning_message('last_turn'))
 
-    puts warning_message('turn_error')
-    player_input
-  end
 
-  def turn_outcome
-    compare(computer_code, guess)
-    show_clues(exact_number, same_number)
-  end
+  def player_input():
+    input = input()
+    if input.lower() == 'q':
+      return input
+    if input.isnumeric():
+      if all(int(c) <= 6 and int(c) >= 0 for c in str(input)) and len(input) == 4:
+        return input
 
-  def human_game_over(master, guess)
-    if master == guess:
-      print(game_message('human_won'))
-    else:
-      print(tct.warning_message('game_over'))
-      puts game_message('display_code')
-      show_code(master)
+    print(tct.warning_message('turn_error'))
+    player_input()
 
-    repeat_game
+
+def human_game_over(master, guess):
+  if master == guess:
+    print(tct.game_message('human_won'))
+  else:
+    print(tct.warning_message('game_over'))
+    print(tct.game_message('display_code'))
+    display.show_code(master)
+
+  gl.repeat_game()

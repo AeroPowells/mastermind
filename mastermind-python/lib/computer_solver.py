@@ -21,8 +21,7 @@ class ComputerSolver:
     self.exact_number = None
     self.same_number = None
     self.total_number = None
-  
-  
+
   def computer_start(self):
     print(tct.turn_message('code_prompt'))
     self.maker_code = self.create_code().split("//")
@@ -31,7 +30,6 @@ class ComputerSolver:
     self.find_code_numbers()
     self.find_code_order()
     self.computer_game_over(self.code_permutations[0])
-  
 
   def create_code(self):
     code_input = input()
@@ -51,14 +49,13 @@ class ComputerSolver:
     if self.turn_count != 1:
       guess.pop(4 - self.total_number)
     if guess.len() != 4:
-      guess << options[index] 
+      guess << options[index]
     self.computer_turn(self.maker_code, guess)
     self.turn_count += 1
     if self.total_number == 4:
       return guess
     else:
       self.find_four_numbers(options, index + 1, guess)
-  
 
   def computer_turn(self, master, guess):
     print(tct.turn_message('computer', self.turn_count))
@@ -68,18 +65,15 @@ class ComputerSolver:
     display.show_clues(self.exact_number, self.same_number)
     current_guess = guess.clone
     self.find_code_guesses.append([current_guess, self.exact_number, self.same_number])
-  
 
   def find_code_order(self):
     self.code_permutations = self.create_permutations(self.four_numbers)
     self.code_permutations = set(self.code_permutations)
     self.compare_previous_guesses()
     self.final_turns()
-  
 
   def create_permutations(array):
     array.permutation.to_a
-  
 
   def compare_previous_guesses(self):
     for code in self.find_code_guesses:
