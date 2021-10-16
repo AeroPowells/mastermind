@@ -2,6 +2,7 @@ import game_logic as gl
 import display
 import text_content as tct
 import random
+import re
 # class for code_breaker game option
 class HumanSolver():
   def __init__(self):
@@ -13,16 +14,16 @@ class HumanSolver():
   def player_turns(self):
     print(tct.turn_message('breaker_start'))
     self.turn_order()
-    self.human_game_over(self.computer_code, self.guess)
+    human_game_over(self.computer_code, self.guess)
 
   def turn_order(self):
     turn = 1
     while turn <= 12:
-      tct.turn_messages(turn)
-      self.guess = self.player_input.split("//")
+      turn_messages(turn)
+      self.guess = list(player_input())
       turn += 1
 
-      if self.guess[0].lower == 'q':
+      if self.guess[0].lower() == 'q':
         break
       display.show_code(self.guess)
 
@@ -32,7 +33,7 @@ class HumanSolver():
       self.turn_outcome()
 
   def turn_outcome(self):
-    gl.compare(self.computer_code, self.guess)
+    self.exact_number, self.same_number, self.total_number = gl.compare(self.computer_code, self.guess)
     display.show_clues(self.exact_number, self.same_number)
 
 def turn_messages(turn):
@@ -41,13 +42,12 @@ def turn_messages(turn):
     print(tct.warning_message('last_turn'))
 
 
-  def player_input():
-    play_input = input()
-    if play_input.lower() == 'q':
-      return play_input
-    if play_input.isnumeric():
-      if all(int(c) <= 6 and int(c) >= 0 for c in str(play_input)) and len(play_input) == 4:
-        return play_input
+def player_input():
+  play_input = input()
+  if play_input.lower() == 'q':
+    return play_input
+  if re.match("^[1-6]{4}$", str(play_input)):
+    return play_input
 
     print(tct.warning_message('turn_error'))
     player_input()

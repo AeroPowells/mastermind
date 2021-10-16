@@ -1,14 +1,15 @@
 from emoji import emojize
 
 def code_colors(number):
-  return {
+  color_dict = {
     '1': "🔴",
     '2': "🔵",
     '3': "🟢",
     '4': "🟡",
     '5': "🟣",
     '6': "🟠",
-  }[number]
+  }
+  return color_dict[number]
 
 def clue_colors(clue):
   return {
@@ -17,13 +18,13 @@ def clue_colors(clue):
   }[clue]
 
 def show_code(array):
-  for num in len(array):
+  for num in array:
     print(code_colors(num))
 
 def show_clues(exact, same):
   print('  Clues: ')
-  for _ in exact:
+  for _ in range(exact):
     print(clue_colors('*'))
-  for _ in same:
+  for _ in range(same):
     print(clue_colors('?'))
   print('')

@@ -4,29 +4,29 @@ import game
 
 
 
-def compare(master,guess):
-  temp_master = master
-  temp_guess = guess
+def compare(compare_master,compare_guess):
+  temp_master = compare_master.copy()
+  temp_guess = compare_guess.copy()
   exact_number = exact_matches(temp_master, temp_guess)
   same_number = right_numbers(temp_master, temp_guess)
   total_number = exact_number + same_number
   return [exact_number,same_number,total_number]
 
-def exact_matches(master, guess):
+def exact_matches(exact_master, exact_guess):
   exact = 0
-  for index, items in enumerate(master):
-    if not items == guess[index]:
+  for index, items in enumerate(exact_master):
+    if items == exact_guess[index]:
       exact += 1
-      master[index] = '*'
-      guess[index]  = '*'
+      exact_master[index] = '*'
+      exact_guess[index]  = '*'
   return exact
 
 def right_numbers(master, guess):
   same = 0
   for index, items in enumerate(guess):
-    if not guess[index] != '*' and master.contains(guess[index]):
+    if guess[index] != '*' and guess[index] in master:
       same += 1
-      remove = master.find_index(guess[index])
+      remove = master.index(guess[index])
       master[remove] = '?'
       guess[index] = '?'
 
@@ -36,7 +36,7 @@ def right_numbers(master, guess):
 def repeat_game():
   print(tct.game_message('repeat_prompt'))
   replay = input()
-  if replay.downcase != 'y':
+  if replay.lower() != 'y':
     print(tct.game_message('thanks'))
-  if replay.downcase == 'y':
+  if replay.lower() == 'y':
     game.play()
